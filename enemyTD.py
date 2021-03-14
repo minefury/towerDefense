@@ -43,6 +43,33 @@ for i in range(10):
     img = pygame.transform.flip(img, True, False)
     skull_troll_hurt_imgs.append(img)
 
+troll_bat_imgs = []
+for i in range(10):
+    img = pygame.image.load(f"images/enemies/TrollBat/2_enemies_1_WALK_0{i if i > 9 else '0' + str(i)}.png")
+    img = pygame.transform.scale(img, (200, 200))
+    img = pygame.transform.flip(img, True, False)
+    troll_bat_imgs.append(img)
+
+troll_bat_hurt_imgs = []
+for i in range(10):
+    img = pygame.image.load(f"images/enemies/TrollBat/2_enemies_1_HURT_0{i if i > 9 else '0' + str(i)}.png")
+    img = pygame.transform.scale(img, (200, 200))
+    img = pygame.transform.flip(img, True, False)
+    troll_bat_hurt_imgs.append(img)
+
+troll_bat_die_imgs = []
+for i in range(10):
+    img = pygame.image.load(f"images/enemies/TrollBat/2_enemies_1_DIE_0{i if i > 9 else '0' + str(i)}.png")
+    img = pygame.transform.scale(img, (200, 200))
+    img = pygame.transform.flip(img, True, False)
+    troll_bat_die_imgs.append(img)
+
+
+path = []
+f_way = open("level_1_path.txt")
+for line in f_way:
+    path.append(tuple(map(int, line.split())))
+
 
 class Enemy:
     def __init__(self, imgs_walk, imgs_die, imgs_hurt, path):
@@ -172,3 +199,33 @@ class Enemy:
         if self.was_dead and self.cadr + 1 >= len(self.imgs_die):
             return True
         return False
+
+
+class EnemyGen:
+    def __init__(self, wave_enemies):
+        self.tic = 0
+        self.count = 0
+        self.wave = 0
+        self.wave_tic = [10, 520, 1020]
+        self.wave_enemies = wave_enemies
+
+    def new_enemy(self):
+        if self.count < 5 and self.tic % 50 == 0:
+            self.count += 1
+            return Enemy(self.wave_enemies[self.wave][0],
+                         self.wave_enemies[self.wave][1],
+                         self.wave_enemies[self.wave][2], path)
+
+        return None
+
+    def update(self):
+        self.tic += 1
+        if self.tic == self.wave_tic[0]:
+            self.count = 0
+            self.wave = 0
+        elif self.tic == self.wave_tic[1]:
+            self.count = 0
+            self.wave = 1
+        elif self.tic == self.wave_tic[2]:
+            self.count = 0
+            self.wave = 2

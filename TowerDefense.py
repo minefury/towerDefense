@@ -8,17 +8,16 @@ bg = pygame.image.load(f"images/Tower_Defense_fon.png")
 bg = pygame.transform.scale(bg, (1200, 900))
 
 
-path = []
-f_way = open("level_1_path.txt")
-for line in f_way:
-    path.append(tuple(map(int, line.split())))
-
-snow_bat = Enemy(snow_bat_imgs, snow_bat_die_imgs, snow_bat_hurt_imgs, path)
-skull_troll = Enemy(skull_troll_imgs, skull_troll_die_imgs, skull_troll_hurt_imgs, path)
+#snow_bat = Enemy(snow_bat_imgs, snow_bat_die_imgs, snow_bat_hurt_imgs, path)
+#skull_troll = Enemy(skull_troll_imgs, skull_troll_die_imgs, skull_troll_hurt_imgs, path)
+waves_enemies = [[snow_bat_imgs, snow_bat_die_imgs, snow_bat_hurt_imgs],
+                 [skull_troll_imgs, skull_troll_die_imgs, snow_bat_hurt_imgs],
+                 [troll_bat_imgs, troll_bat_die_imgs, troll_bat_hurt_imgs]]
 stone_towers = []
-enemies = [snow_bat]
+enemies = []
 stones = []
 places = [[520, 303], [773, 303], [1022, 301], [437, 547], [711, 558], [975, 564], [304, 758]]
+enemy_gen = EnemyGen(waves_enemies)
 while True:
     for e in pygame.event.get():
         if e.type == pygame.QUIT:
@@ -34,6 +33,11 @@ while True:
             stone_towers.append(stone_tower)
 
     screen.blit(bg, (0, 0))
+
+    enemy_gen.update()
+    new_enemy = enemy_gen.new_enemy()
+    if new_enemy:
+        enemies.append(new_enemy)
 
     for stone_tower in stone_towers:
         stone_tower.draw(screen)
