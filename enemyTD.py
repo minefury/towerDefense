@@ -1,0 +1,150 @@
+import pygame
+import math
+
+snow_bat_imgs = []
+for i in range(10):
+    img = pygame.image.load(f"/home/maja/PycharmProjects/lessons/towerDefense/images/enemies/SnowBat/2_enemies_1_WALK_0{i if i > 9 else '0' + str(i)}.png")
+    img = pygame.transform.scale(img, (150, 150))
+    img = pygame.transform.flip(img, True, False)
+    snow_bat_imgs.append(img)
+
+snow_bat_die_imgs = []
+for i in range(10):
+    img = pygame.image.load(f"/home/maja/PycharmProjects/lessons/towerDefense/images/enemies/SnowBat/2_enemies_1_DIE_0{i if i > 9 else '0' + str(i)}.png")
+    img = pygame.transform.scale(img, (150, 150))
+    img = pygame.transform.flip(img, True, False)
+    snow_bat_die_imgs.append(img)
+
+snow_bat_hurt_imgs = []
+for i in range(10):
+    img = pygame.image.load(f"/home/maja/PycharmProjects/lessons/towerDefense/images/enemies/SnowBat/2_enemies_1_HURT_0{i if i > 9 else '0' + str(i)}.png")
+    img = pygame.transform.scale(img, (150, 150))
+    img = pygame.transform.flip(img, True, False)
+    snow_bat_hurt_imgs.append(img)
+
+skull_troll_imgs = []
+for i in range(10):
+    img = pygame.image.load(f"/home/maja/PycharmProjects/lessons/towerDefense/images/enemies/SkullTroll/2_enemies_1_WALK_0{i if i > 9 else '0' + str(i)}.png")
+    img = pygame.transform.scale(img, (150, 150))
+    img = pygame.transform.flip(img, True, False)
+    skull_troll_imgs.append(img)
+
+skull_troll_die_imgs = []
+for i in range(10):
+    img = pygame.image.load(f"/home/maja/PycharmProjects/lessons/towerDefense/images/enemies/SkullTroll/2_enemies_1_DIE_0{i if i > 9 else '0' + str(i)}.png")
+    img = pygame.transform.scale(img, (150, 150))
+    img = pygame.transform.flip(img, True, False)
+    skull_troll_die_imgs.append(img)
+
+skull_troll_hurt_imgs = []
+for i in range(10):
+    img = pygame.image.load(f"/home/maja/PycharmProjects/lessons/towerDefense/images/enemies/SkullTroll/2_enemies_1_HURT_0{i if i > 9 else '0' + str(i)}.png")
+    img = pygame.transform.scale(img, (150, 150))
+    img = pygame.transform.flip(img, True, False)
+    skull_troll_hurt_imgs.append(img)
+
+
+class Enemy:
+    def __init__(self, imgs_walk, imgs_die, imgs_hurt, path):
+        self.x = path[0][0]
+        self.y = path[0][1]
+        self.width = imgs_walk[0].get_width()
+        self.height = imgs_walk[0].get_height()
+        self.imgs_walk = imgs_walk
+        self.imgs_die = imgs_die
+        self.imgs_hurt = imgs_hurt
+        self.imgs = self.imgs_walk
+        self.cadr = 0
+        self.path = path
+        self.pos = 0
+        self.hp = 15
+        self.cnt = 0
+        self.was_hit = False
+
+    def hit(self):
+        self.hp -= 5
+        self.was_hit = True
+
+    def next_pos(self):
+        pos = self.pos
+        x, y = self.x, self.y
+        for i in range(1, 30):
+            x1, y1 = self.path[pos]
+            if pos + 1 >= len(self.path):
+                return x, y
+            else:
+                x2, y2 = self.path[pos + 1]
+
+            dir_x, dir_y = x2 - x1, y2 - y1
+            len_dir = math.sqrt(dir_x * dir_x + dir_y * dir_y)
+            dir_x /= len_dir
+            dir_y /= len_dir
+
+            x += dir_x * 6
+            y += dir_y * 6
+
+            if dir_x <= 0 and dir_y >= 0:
+                if x <= x2 and y >= y2:
+                    pos += 1
+
+            if dir_x >= 0 and dir_y <= 0:
+                if x >= x2 and y <= y2:
+                    pos += 1
+
+            if dir_x >= 0 and dir_y >= 0:
+                if x >= x2 and y >= y2:
+                    pos += 1
+
+            if dir_x <= 0 and dir_y <= 0:
+                if x <= x2 and y <= y2:
+                    pos += 1
+        return x, y
+
+    def draw(self, screen):
+        screen.blit(self.imgs[self.cadr], (self.x - (self.height // 2), self.y))
+
+    def move(self):
+        if self.cadr >= 9:
+            self.cadr = 0
+        else:
+            self.cadr += 1
+        x1, y1 = self.path[self.pos]
+        if self.pos + 1 >= len(self.path):
+            return False
+        else:
+            x2, y2 = self.path[self.pos + 1]
+
+        dir_x, dir_y = x2 - x1, y2 - y1
+        len_dir = math.sqrt(dir_x * dir_x + dir_y * dir_y)
+        dir_x /= len_dir
+        dir_y /= len_dir
+
+        self.x += dir_x * 2
+        self.y += dir_y * 2
+
+        if dir_x <= 0 and dir_y >= 0:
+            if self.x <= x2 and self.y >= y2:
+                self.pos += 1
+
+        if dir_x >= 0 and dir_y <= 0:
+            if self.x >= x2 and self.y <= y2:
+                self.pos += 1
+
+        if dir_x >= 0 and dir_y >= 0:
+            if self.x >= x2 and self.y >= y2:
+                self.pos += 1
+
+        if dir_x <= 0 and dir_y <= 0:
+            if self.x <= x2 and self.y <= y2:
+                self.pos += 1
+
+        return True
+
+    def update(self):
+        if self.hp == 0:
+            self.imgs = self.imgs_die
+        elif self.was_hit:
+            self.imgs = self.imgs_hurt
+        else:
+            self.imgs = self.imgs_walk
+
