@@ -57,10 +57,12 @@ class Enemy:
         self.cadr = 0
         self.path = path
         self.pos = 0
-        self.hp = 15
+        self.max_hp = 15
+        self.hp = self.max_hp
         self.cnt = 0
         self.was_hurt = False
         self.was_dead = False
+        self.cadr_dead = 0
 
     def hit(self):
         self.hp -= 5
@@ -110,14 +112,22 @@ class Enemy:
                     pos += 1
         return x, y
 
+    def draw_hp(self, screen):
+        green = (0, 255, 0)
+        green_width = self.hp * self.width // 2 // self.max_hp
+        if green_width != 0:
+            pygame.draw.rect(screen, green, (self.x, self.y, green_width, 10))
+        red = (255, 0, 0)
+        red_width = self.width // 2 - green_width
+        if red_width != 0:
+            pygame.draw.rect(screen, red, (self.x + green_width, self.y, red_width, 10))
+
     def draw(self, screen):
-        screen.blit(self.imgs[self.cadr], (self.x - (self.height // 2), self.y))
+        (dx, dy) = (self.x - (self.width // 2), self.y)
+        screen.blit(self.imgs[self.cadr], (dx, dy))
+        self.draw_hp(screen)
 
     def move(self):
-        if self.cadr >= 9:
-            self.cadr = 0
-        else:
-            self.cadr += 1
         x1, y1 = self.path[self.pos]
         if self.pos + 1 >= len(self.path):
             return False
@@ -151,6 +161,14 @@ class Enemy:
         return True
 
     def update(self):
+        incr = 1
+        if self.was_dead:
+            self.cadr_dead = (self.cadr_dead + 1) % 3
+            if self.cadr_dead < 2:
+                incr = 0
+
+        self.cadr = (self.cadr + incr) % len(self.imgs)
+
         if self.was_dead and self.cadr + 1 >= len(self.imgs_die):
             return True
         return False
