@@ -9,21 +9,21 @@ def load_and_scale(img, scale):
 
 tower_imgs = [[], [], []]
 for i in 1, 3, 2:
-    img = load_and_scale(f"/home/maja/PycharmProjects/lessons/towerDefense/images/Towers/Stone_Tower/{str(i)}.png", 0.8)
+    img = load_and_scale(f"images/Towers/Stone_Tower/{str(i)}.png", 0.8)
     tower_imgs[0].append(img)
 for i in 1, 6, 2:
-    img = load_and_scale(f"/home/maja/PycharmProjects/lessons/towerDefense/images/Towers/Stone_Tower/{str(i)}.png", 0.8)
+    img = load_and_scale(f"images/Towers/Stone_Tower/{str(i)}.png", 0.8)
     tower_imgs[1].append(img)
 
 for i in 4, 7, 5:
-    img = load_and_scale(f"/home/maja/PycharmProjects/lessons/towerDefense/images/Towers/Stone_Tower/{str(i)}.png", 0.8)
+    img = load_and_scale(f"images/Towers/Stone_Tower/{str(i)}.png", 0.8)
     tower_imgs[2].append(img)
 
-stone_img = load_and_scale(f"/home/maja/PycharmProjects/lessons/towerDefense/images/Towers/Stone_Tower/40.png", 0.8)
-bang1_img = load_and_scale(f"/home/maja/PycharmProjects/lessons/towerDefense/images/Towers/Stone_Tower/41.png", 0.8)
-bang2_img = load_and_scale(f"/home/maja/PycharmProjects/lessons/towerDefense/images/Towers/Stone_Tower/42.png", 0.8)
-bang3_img = load_and_scale(f"/home/maja/PycharmProjects/lessons/towerDefense/images/Towers/Stone_Tower/42.png", 0.8)
-bang4_img = load_and_scale(f"/home/maja/PycharmProjects/lessons/towerDefense/images/Towers/Stone_Tower/43.png", 0.8)
+stone_img = load_and_scale(f"images/Towers/Stone_Tower/40.png", 0.8)
+bang1_img = load_and_scale(f"images/Towers/Stone_Tower/41.png", 0.8)
+bang2_img = load_and_scale(f"images/Towers/Stone_Tower/42.png", 0.8)
+bang3_img = load_and_scale(f"images/Towers/Stone_Tower/42.png", 0.8)
+bang4_img = load_and_scale(f"images/Towers/Stone_Tower/43.png", 0.8)
 stone_bang_imgss = [bang1_img, bang2_img, bang3_img, bang4_img]
 
 
@@ -71,7 +71,9 @@ class StoneTower(Tower):
 
 
 class Stone:
-    def __init__(self, goal_x, goal_y, x, y, imggg, state):
+    def __init__(self, target_enemy, x, y, imggg, state):
+        goal_x, goal_y = target_enemy.next_pos()
+        self.enemy = target_enemy
         self.goal_x = goal_x
         self.goal_y = goal_y
         self.x = x
@@ -110,6 +112,7 @@ class Stone:
             self.x -= 1
             if self.cnt >= len(imgs)*3:
                 self.state = 4
+                self.enemy.hit()
                 return True
 
         return False

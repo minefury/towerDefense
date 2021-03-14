@@ -3,42 +3,42 @@ import math
 
 snow_bat_imgs = []
 for i in range(10):
-    img = pygame.image.load(f"/home/maja/PycharmProjects/lessons/towerDefense/images/enemies/SnowBat/2_enemies_1_WALK_0{i if i > 9 else '0' + str(i)}.png")
+    img = pygame.image.load(f"images/enemies/SnowBat/2_enemies_1_WALK_0{i if i > 9 else '0' + str(i)}.png")
     img = pygame.transform.scale(img, (150, 150))
     img = pygame.transform.flip(img, True, False)
     snow_bat_imgs.append(img)
 
 snow_bat_die_imgs = []
 for i in range(10):
-    img = pygame.image.load(f"/home/maja/PycharmProjects/lessons/towerDefense/images/enemies/SnowBat/2_enemies_1_DIE_0{i if i > 9 else '0' + str(i)}.png")
+    img = pygame.image.load(f"images/enemies/SnowBat/2_enemies_1_DIE_0{i if i > 9 else '0' + str(i)}.png")
     img = pygame.transform.scale(img, (150, 150))
     img = pygame.transform.flip(img, True, False)
     snow_bat_die_imgs.append(img)
 
 snow_bat_hurt_imgs = []
 for i in range(10):
-    img = pygame.image.load(f"/home/maja/PycharmProjects/lessons/towerDefense/images/enemies/SnowBat/2_enemies_1_HURT_0{i if i > 9 else '0' + str(i)}.png")
+    img = pygame.image.load(f"images/enemies/SnowBat/2_enemies_1_HURT_0{i if i > 9 else '0' + str(i)}.png")
     img = pygame.transform.scale(img, (150, 150))
     img = pygame.transform.flip(img, True, False)
     snow_bat_hurt_imgs.append(img)
 
 skull_troll_imgs = []
 for i in range(10):
-    img = pygame.image.load(f"/home/maja/PycharmProjects/lessons/towerDefense/images/enemies/SkullTroll/2_enemies_1_WALK_0{i if i > 9 else '0' + str(i)}.png")
+    img = pygame.image.load(f"images/enemies/SkullTroll/2_enemies_1_WALK_0{i if i > 9 else '0' + str(i)}.png")
     img = pygame.transform.scale(img, (150, 150))
     img = pygame.transform.flip(img, True, False)
     skull_troll_imgs.append(img)
 
 skull_troll_die_imgs = []
 for i in range(10):
-    img = pygame.image.load(f"/home/maja/PycharmProjects/lessons/towerDefense/images/enemies/SkullTroll/2_enemies_1_DIE_0{i if i > 9 else '0' + str(i)}.png")
+    img = pygame.image.load(f"images/enemies/SkullTroll/2_enemies_1_DIE_0{i if i > 9 else '0' + str(i)}.png")
     img = pygame.transform.scale(img, (150, 150))
     img = pygame.transform.flip(img, True, False)
     skull_troll_die_imgs.append(img)
 
 skull_troll_hurt_imgs = []
 for i in range(10):
-    img = pygame.image.load(f"/home/maja/PycharmProjects/lessons/towerDefense/images/enemies/SkullTroll/2_enemies_1_HURT_0{i if i > 9 else '0' + str(i)}.png")
+    img = pygame.image.load(f"images/enemies/SkullTroll/2_enemies_1_HURT_0{i if i > 9 else '0' + str(i)}.png")
     img = pygame.transform.scale(img, (150, 150))
     img = pygame.transform.flip(img, True, False)
     skull_troll_hurt_imgs.append(img)
@@ -59,11 +59,21 @@ class Enemy:
         self.pos = 0
         self.hp = 15
         self.cnt = 0
-        self.was_hit = False
+        self.was_hurt = False
+        self.was_dead = False
 
     def hit(self):
         self.hp -= 5
-        self.was_hit = True
+        if self.hp <= 0:
+            self.imgs = self.imgs_die
+            if not self.was_dead:
+                self.cadr = 0
+                self.was_dead = True
+        else:
+            self.imgs = self.imgs_hurt
+            if not self.was_hurt:
+                self.cadr = 0
+                self.was_hurt = True
 
     def next_pos(self):
         pos = self.pos
@@ -83,11 +93,11 @@ class Enemy:
             x += dir_x * 6
             y += dir_y * 6
 
-            if dir_x <= 0 and dir_y >= 0:
+            if dir_x <= 0 <= dir_y:
                 if x <= x2 and y >= y2:
                     pos += 1
 
-            if dir_x >= 0 and dir_y <= 0:
+            if dir_x >= 0 >= dir_y:
                 if x >= x2 and y <= y2:
                     pos += 1
 
@@ -122,11 +132,11 @@ class Enemy:
         self.x += dir_x * 2
         self.y += dir_y * 2
 
-        if dir_x <= 0 and dir_y >= 0:
+        if dir_x <= 0 <= dir_y:
             if self.x <= x2 and self.y >= y2:
                 self.pos += 1
 
-        if dir_x >= 0 and dir_y <= 0:
+        if dir_x >= 0 >= dir_y:
             if self.x >= x2 and self.y <= y2:
                 self.pos += 1
 
@@ -141,10 +151,6 @@ class Enemy:
         return True
 
     def update(self):
-        if self.hp == 0:
-            self.imgs = self.imgs_die
-        elif self.was_hit:
-            self.imgs = self.imgs_hurt
-        else:
-            self.imgs = self.imgs_walk
-
+        if self.was_dead and self.cadr + 1 >= len(self.imgs_die):
+            return True
+        return False
