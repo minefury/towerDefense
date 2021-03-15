@@ -11,7 +11,7 @@ bg = pygame.transform.scale(bg, (1200, 900))
 #snow_bat = Enemy(snow_bat_imgs, snow_bat_die_imgs, snow_bat_hurt_imgs, path)
 #skull_troll = Enemy(skull_troll_imgs, skull_troll_die_imgs, skull_troll_hurt_imgs, path)
 waves_enemies = [[snow_bat_imgs, snow_bat_die_imgs, snow_bat_hurt_imgs],
-                 [skull_troll_imgs, skull_troll_die_imgs, snow_bat_hurt_imgs],
+                 [skull_troll_imgs, skull_troll_die_imgs, skull_troll_hurt_imgs],
                  [troll_bat_imgs, troll_bat_die_imgs, troll_bat_hurt_imgs]]
 stone_towers = []
 enemies = []

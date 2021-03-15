@@ -198,6 +198,9 @@ class Enemy:
 
         if self.was_dead and self.cadr + 1 >= len(self.imgs_die):
             return True
+
+        if self.pos + 1 >= len(self.path):
+            return True
         return False
 
 
@@ -229,3 +232,4 @@ class EnemyGen:
         elif self.tic == self.wave_tic[2]:
             self.count = 0
             self.wave = 2
+
