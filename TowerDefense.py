@@ -4,7 +4,7 @@ from towerDefense.towerTD import *
 pygame.init()
 screen = pygame.display.set_mode((1200, 900))
 
-bg = pygame.image.load(f"images/Tower_Defense_fon.png")
+bg = pygame.image.load(f"images/Background/Tower_Defense_fon.png")
 bg = pygame.transform.scale(bg, (1200, 900))
 
 
