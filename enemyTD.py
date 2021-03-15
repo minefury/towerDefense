@@ -1,72 +1,73 @@
 import pygame
 import math
+from utils import *
 
 snow_bat_imgs = []
 for i in range(10):
-    img = pygame.image.load(f"images/enemies/SnowBat/2_enemies_1_WALK_0{i if i > 9 else '0' + str(i)}.png")
+    img = load_img(f"images/enemies/SnowBat/2_enemies_1_WALK_0{i if i > 9 else '0' + str(i)}.png")
     img = pygame.transform.scale(img, (150, 150))
     img = pygame.transform.flip(img, True, False)
     snow_bat_imgs.append(img)
 
 snow_bat_die_imgs = []
 for i in range(10):
-    img = pygame.image.load(f"images/enemies/SnowBat/2_enemies_1_DIE_0{i if i > 9 else '0' + str(i)}.png")
+    img = load_img(f"images/enemies/SnowBat/2_enemies_1_DIE_0{i if i > 9 else '0' + str(i)}.png")
     img = pygame.transform.scale(img, (150, 150))
     img = pygame.transform.flip(img, True, False)
     snow_bat_die_imgs.append(img)
 
 snow_bat_hurt_imgs = []
 for i in range(10):
-    img = pygame.image.load(f"images/enemies/SnowBat/2_enemies_1_HURT_0{i if i > 9 else '0' + str(i)}.png")
+    img = load_img(f"images/enemies/SnowBat/2_enemies_1_HURT_0{i if i > 9 else '0' + str(i)}.png")
     img = pygame.transform.scale(img, (150, 150))
     img = pygame.transform.flip(img, True, False)
     snow_bat_hurt_imgs.append(img)
 
 skull_troll_imgs = []
 for i in range(10):
-    img = pygame.image.load(f"images/enemies/SkullTroll/2_enemies_1_WALK_0{i if i > 9 else '0' + str(i)}.png")
+    img = load_img(f"images/enemies/SkullTroll/2_enemies_1_WALK_0{i if i > 9 else '0' + str(i)}.png")
     img = pygame.transform.scale(img, (150, 150))
     img = pygame.transform.flip(img, True, False)
     skull_troll_imgs.append(img)
 
 skull_troll_die_imgs = []
 for i in range(10):
-    img = pygame.image.load(f"images/enemies/SkullTroll/2_enemies_1_DIE_0{i if i > 9 else '0' + str(i)}.png")
+    img = load_img(f"images/enemies/SkullTroll/2_enemies_1_DIE_0{i if i > 9 else '0' + str(i)}.png")
     img = pygame.transform.scale(img, (150, 150))
     img = pygame.transform.flip(img, True, False)
     skull_troll_die_imgs.append(img)
 
 skull_troll_hurt_imgs = []
 for i in range(10):
-    img = pygame.image.load(f"images/enemies/SkullTroll/2_enemies_1_HURT_0{i if i > 9 else '0' + str(i)}.png")
+    img = load_img(f"images/enemies/SkullTroll/2_enemies_1_HURT_0{i if i > 9 else '0' + str(i)}.png")
     img = pygame.transform.scale(img, (150, 150))
     img = pygame.transform.flip(img, True, False)
     skull_troll_hurt_imgs.append(img)
 
 troll_bat_imgs = []
 for i in range(10):
-    img = pygame.image.load(f"images/enemies/TrollBat/2_enemies_1_WALK_0{i if i > 9 else '0' + str(i)}.png")
+    img = load_img(f"images/enemies/TrollBat/2_enemies_1_WALK_0{i if i > 9 else '0' + str(i)}.png")
     img = pygame.transform.scale(img, (200, 200))
     img = pygame.transform.flip(img, True, False)
     troll_bat_imgs.append(img)
 
 troll_bat_hurt_imgs = []
 for i in range(10):
-    img = pygame.image.load(f"images/enemies/TrollBat/2_enemies_1_HURT_0{i if i > 9 else '0' + str(i)}.png")
+    img = load_img(f"images/enemies/TrollBat/2_enemies_1_HURT_0{i if i > 9 else '0' + str(i)}.png")
     img = pygame.transform.scale(img, (200, 200))
     img = pygame.transform.flip(img, True, False)
     troll_bat_hurt_imgs.append(img)
 
 troll_bat_die_imgs = []
 for i in range(10):
-    img = pygame.image.load(f"images/enemies/TrollBat/2_enemies_1_DIE_0{i if i > 9 else '0' + str(i)}.png")
+    img = load_img(f"images/enemies/TrollBat/2_enemies_1_DIE_0{i if i > 9 else '0' + str(i)}.png")
     img = pygame.transform.scale(img, (200, 200))
     img = pygame.transform.flip(img, True, False)
     troll_bat_die_imgs.append(img)
 
 
 path = []
-f_way = open("level_1_path.txt")
+f_way = open_file("images/level_1_path.txt")
 for line in f_way:
     path.append(tuple(map(int, line.split())))
 
@@ -150,7 +151,7 @@ class Enemy:
             pygame.draw.rect(screen, red, (self.x + green_width, self.y, red_width, 10))
 
     def draw(self, screen):
-        (dx, dy) = (self.x - (self.width // 2), self.y)
+        (dx, dy) = (self.x - (self.width // 2), self.y - (self.height // 2))
         screen.blit(self.imgs[self.cadr], (dx, dy))
         self.draw_hp(screen)
 

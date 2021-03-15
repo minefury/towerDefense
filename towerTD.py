@@ -1,8 +1,9 @@
 import pygame
+from utils import *
 
 
 def load_and_scale(img, scale):
-    imgg = pygame.image.load(img)
+    imgg = load_img(img)
     imgg = pygame.transform.scale(imgg, (int(imgg.get_width() * scale), int(imgg.get_height() * scale)))
     return imgg
 

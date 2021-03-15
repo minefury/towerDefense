@@ -1,10 +1,11 @@
-from towerDefense.enemyTD import *
-from towerDefense.towerTD import *
+from enemyTD import *
+from towerTD import *
+from utils import *
 
 pygame.init()
 screen = pygame.display.set_mode((1200, 900))
 
-bg = pygame.image.load(f"images/Background/Tower_Defense_fon.png")
+bg = load_img(f"images/Background/Tower_Defense_fon.png")
 bg = pygame.transform.scale(bg, (1200, 900))
 
 
@@ -39,6 +40,14 @@ while True:
     if new_enemy:
         enemies.append(new_enemy)
 
+    for i, enemy in enumerate(enemies):
+        remove_me = enemy.update()
+        if remove_me:
+            del enemies[i]
+        else:
+            enemy.draw(screen)
+            enemy.move()
+
     for stone_tower in stone_towers:
         stone_tower.draw(screen)
         stone_tower.update()
@@ -61,13 +70,7 @@ while True:
     for j in places:
         pygame.draw.circle(screen, (255, 20, 147), (j[0], j[1]), 10)
 
-    for i, enemy in enumerate(enemies):
-        remove_me = enemy.update()
-        if remove_me:
-            del enemies[i]
-        else:
-            enemy.draw(screen)
-            enemy.move()
+
 
     pygame.display.flip()
     pygame.time.delay(10)
