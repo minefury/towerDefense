@@ -50,7 +50,7 @@ class StoneTower(Tower):
         self.level = 0
         self.ready = True
         self.q = False
-        self.range = 250
+        self.range = 175
         self.w, self.h = self.img[self.level][1].get_size()
 
     def draw(self, screen):

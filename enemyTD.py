@@ -73,7 +73,7 @@ for line in f_way:
 
 
 class Enemy:
-    def __init__(self, imgs_walk, imgs_die, imgs_hurt, path):
+    def __init__(self, imgs_walk, imgs_die, imgs_hurt, path, hp):
         self.x = path[0][0]
         self.y = path[0][1]
         self.width = imgs_walk[0].get_width()
@@ -85,12 +85,13 @@ class Enemy:
         self.cadr = 0
         self.path = path
         self.pos = 0
-        self.max_hp = 15
+        self.max_hp = hp
         self.hp = self.max_hp
         self.cnt = 0
         self.was_hurt = False
         self.was_dead = False
         self.cadr_dead = 0
+        self.cadr_hurt = 0
 
     def hit(self):
         self.hp -= 5
@@ -195,10 +196,19 @@ class Enemy:
             if self.cadr_dead < 2:
                 incr = 0
 
+        if self.was_hurt:
+            self.cadr_hurt = (self.cadr_hurt + 1) % 3
+            if self.cadr_hurt < 2:
+                incr = 0
+
         self.cadr = (self.cadr + incr) % len(self.imgs)
 
         if self.was_dead and self.cadr + 1 >= len(self.imgs_die):
             return True
+
+        if self.was_hurt and self.cadr + 1 >= len(self.imgs_hurt):
+            self.imgs = self.imgs_walk
+            self.was_hurt = False
 
         if self.pos + 1 >= len(self.path):
             return True
@@ -218,7 +228,7 @@ class EnemyGen:
             self.count += 1
             return Enemy(self.wave_enemies[self.wave][0],
                          self.wave_enemies[self.wave][1],
-                         self.wave_enemies[self.wave][2], path)
+                         self.wave_enemies[self.wave][2], path, self.wave_enemies[self.wave][3])
 
         return None
 

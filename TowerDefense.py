@@ -11,9 +11,9 @@ bg = pygame.transform.scale(bg, (1200, 900))
 
 #snow_bat = Enemy(snow_bat_imgs, snow_bat_die_imgs, snow_bat_hurt_imgs, path)
 #skull_troll = Enemy(skull_troll_imgs, skull_troll_die_imgs, skull_troll_hurt_imgs, path)
-waves_enemies = [[snow_bat_imgs, snow_bat_die_imgs, snow_bat_hurt_imgs],
-                 [skull_troll_imgs, skull_troll_die_imgs, skull_troll_hurt_imgs],
-                 [troll_bat_imgs, troll_bat_die_imgs, troll_bat_hurt_imgs]]
+waves_enemies = [[snow_bat_imgs, snow_bat_die_imgs, snow_bat_hurt_imgs, 15],
+                 [skull_troll_imgs, skull_troll_die_imgs, skull_troll_hurt_imgs, 20],
+                 [troll_bat_imgs, troll_bat_die_imgs, troll_bat_hurt_imgs, 30]]
 stone_towers = []
 enemies = []
 stones = []
@@ -40,13 +40,16 @@ while True:
     if new_enemy:
         enemies.append(new_enemy)
 
-    for i, enemy in enumerate(enemies):
-        remove_me = enemy.update()
+    for e in reversed(enemies):
+        remove_me = e.update()
         if remove_me:
-            del enemies[i]
+            enemies.remove(e)
         else:
-            enemy.draw(screen)
-            enemy.move()
+            e.draw(screen)
+            e.move()
+
+    for j in places:
+        pygame.draw.circle(screen, (255, 20, 147), (j[0], j[1]), 10)
 
     for stone_tower in stone_towers:
         stone_tower.draw(screen)
@@ -66,11 +69,6 @@ while True:
             del stones[i]
         else:
             stone.draw(screen)
-
-    for j in places:
-        pygame.draw.circle(screen, (255, 20, 147), (j[0], j[1]), 10)
-
-
 
     pygame.display.flip()
     pygame.time.delay(10)

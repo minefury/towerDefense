@@ -2,6 +2,7 @@ import pygame
 import sys
 import os
 
+
 def resource_path(relative_path):
     """ Get absolute path to resource, works for dev and for PyInstaller """
     try:
@@ -12,10 +13,13 @@ def resource_path(relative_path):
 
     return os.path.join(base_path, relative_path)
 
+
 def load_img(file_name):
     return pygame.image.load(resource_path(file_name))
 
+
 def open_file(file_name):
     return open(resource_path(file_name))
+
 
 pygame.init()
