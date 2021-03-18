@@ -27,7 +27,7 @@ while True:
         if e.type == pygame.MOUSEBUTTONDOWN:
             pos = pygame.mouse.get_pos()
             pos = list(pos)
-            print(pos)
+            #print(pos)
             pos[0] -= 30
             pos[1] -= 60
             stone_tower = StoneTower(pos[0], pos[1], tower_imgs)

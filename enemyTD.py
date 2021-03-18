@@ -47,21 +47,21 @@ for i in range(10):
 troll_bat_imgs = []
 for i in range(10):
     img = load_img(f"images/enemies/TrollBat/2_enemies_1_WALK_0{i if i > 9 else '0' + str(i)}.png")
-    img = pygame.transform.scale(img, (200, 200))
+    img = pygame.transform.scale(img, (150, 150))
     img = pygame.transform.flip(img, True, False)
     troll_bat_imgs.append(img)
 
 troll_bat_hurt_imgs = []
 for i in range(10):
     img = load_img(f"images/enemies/TrollBat/2_enemies_1_HURT_0{i if i > 9 else '0' + str(i)}.png")
-    img = pygame.transform.scale(img, (200, 200))
+    img = pygame.transform.scale(img, (150, 150))
     img = pygame.transform.flip(img, True, False)
     troll_bat_hurt_imgs.append(img)
 
 troll_bat_die_imgs = []
 for i in range(10):
     img = load_img(f"images/enemies/TrollBat/2_enemies_1_DIE_0{i if i > 9 else '0' + str(i)}.png")
-    img = pygame.transform.scale(img, (200, 200))
+    img = pygame.transform.scale(img, (150, 150))
     img = pygame.transform.flip(img, True, False)
     troll_bat_die_imgs.append(img)
 
@@ -92,6 +92,7 @@ class Enemy:
         self.was_dead = False
         self.cadr_dead = 0
         self.cadr_hurt = 0
+        self.left = True
 
     def hit(self):
         self.hp -= 5
@@ -171,6 +172,33 @@ class Enemy:
         self.x += dir_x * 2
         self.y += dir_y * 2
 
+        if dir_x >= 0 and self.left:
+            self.left = False
+            for i in range(len(self.imgs_walk)):
+                    img = pygame.transform.flip(self.imgs_walk[i], True, False)
+                    self.imgs_walk[i] = img
+
+            for i in range(len(self.imgs_hurt)):
+                    img = pygame.transform.flip(self.imgs_hurt[i], True, False)
+                    self.imgs_hurt[i] = img
+
+            for i in range(len(self.imgs_die)):
+                    img = pygame.transform.flip(self.imgs_die[i], True, False)
+                    self.imgs_die[i] = img
+        elif dir_x <= 0 and not self.left:
+            self.left = True
+            for i in range(len(self.imgs_walk)):
+                    img = pygame.transform.flip(self.imgs_walk[i], True, False)
+                    self.imgs_walk[i] = img
+
+            for i in range(len(self.imgs_hurt)):
+                    img = pygame.transform.flip(self.imgs_hurt[i], True, False)
+                    self.imgs_hurt[i] = img
+
+            for i in range(len(self.imgs_die)):
+                    img = pygame.transform.flip(self.imgs_die[i], True, False)
+                    self.imgs_die[i] = img
+
         if dir_x <= 0 <= dir_y:
             if self.x <= x2 and self.y >= y2:
                 self.pos += 1
@@ -226,9 +254,9 @@ class EnemyGen:
     def new_enemy(self):
         if self.count < 5 and self.tic % 50 == 0:
             self.count += 1
-            return Enemy(self.wave_enemies[self.wave][0],
-                         self.wave_enemies[self.wave][1],
-                         self.wave_enemies[self.wave][2], path, self.wave_enemies[self.wave][3])
+            return Enemy(self.wave_enemies[self.wave][0].copy(),
+                         self.wave_enemies[self.wave][1].copy(),
+                         self.wave_enemies[self.wave][2].copy(), path, self.wave_enemies[self.wave][3])
 
         return None
 
