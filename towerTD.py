@@ -54,9 +54,9 @@ class StoneTower(Tower):
         self.w, self.h = self.img[self.level][1].get_size()
 
     def draw(self, screen):
-        screen.blit(self.img[self.level][0], (self.x1, self.y1 + 56))
+        screen.blit(self.img[self.level][0], (self.x1, self.y1 + 56*IMG_ScalingRegulation))
         screen.blit(self.img[self.level][1], (self.x, self.y))
-        screen.blit(self.img[self.level][2], (self.x1, self.y1 + 56 + self.img[self.level][0].get_height() - 2))
+        screen.blit(self.img[self.level][2], (self.x1, self.y1 + 56*IMG_ScalingRegulation + self.img[self.level][0].get_height() - 2))
 
     def update(self):
         if not self.ready:
@@ -67,7 +67,7 @@ class StoneTower(Tower):
             if self.y1 >= self.y:
                 self.q = False
                 self.ready = True
-            if self.y1 <= self.y - 56:
+            if self.y1 <= self.y - 56*IMG_ScalingRegulation:
                 self.q = True
 
 
@@ -85,7 +85,7 @@ class Stone:
         self.cnt = 0
         self.c = 40
         self.a = 0.2
-        self.vx, self.vy = (goal_x - x) / self.c, (goal_y - (y - 56) - self.a * self.c ** 2 / 2) / self.c
+        self.vx, self.vy = (goal_x - x) / self.c, (goal_y - (y - 56*IMG_ScalingRegulation) - self.a * self.c ** 2 / 2) / self.c
         self.t = 0
 
     def draw(self, screen):
@@ -95,7 +95,7 @@ class Stone:
     def update(self, imgs):
         if self.state == 1:
             self.y -= 2
-            if self.start_y - 50 >= self.y:
+            if self.start_y - 50*IMG_ScalingRegulation >= self.y:
                 self.state = 2
         elif self.state == 2:
             self.t += 1

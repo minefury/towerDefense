@@ -2,11 +2,13 @@ from enemyTD import *
 from towerTD import *
 from utils import *
 
+Widths=int(1200*IMG_ScalingRegulation)
+Heights=int(900*IMG_ScalingRegulation)
 pygame.init()
-screen = pygame.display.set_mode((1200, 900))
+screen = pygame.display.set_mode((Widths, Heights))
 
 bg = load_img(f"images/Background/Tower_Defense_fon.png")
-bg = pygame.transform.scale(bg, (1200, 900))
+bg = pygame.transform.scale(bg, (int(1200*IMG_ScalingRegulation), int(900*IMG_ScalingRegulation)))
 
 
 #snow_bat = Enemy(snow_bat_imgs, snow_bat_die_imgs, snow_bat_hurt_imgs, path)
@@ -17,7 +19,10 @@ waves_enemies = [[snow_bat_imgs, snow_bat_die_imgs, snow_bat_hurt_imgs, 15],
 stone_towers = []
 enemies = []
 stones = []
-places = [[520, 303], [773, 303], [1022, 301], [437, 547], [711, 558], [975, 564], [304, 758]]
+places = [[520*IMG_ScalingRegulation, 303*IMG_ScalingRegulation], [773*IMG_ScalingRegulation, 303*IMG_ScalingRegulation],
+          [1022*IMG_ScalingRegulation, 301*IMG_ScalingRegulation], [437*IMG_ScalingRegulation, 547*IMG_ScalingRegulation],
+          [711*IMG_ScalingRegulation, 558*IMG_ScalingRegulation], [975*IMG_ScalingRegulation, 564*IMG_ScalingRegulation],
+          [304*IMG_ScalingRegulation, 758*IMG_ScalingRegulation]]
 enemy_gen = EnemyGen(waves_enemies)
 while True:
     for e in pygame.event.get():
@@ -28,8 +33,8 @@ while True:
             pos = pygame.mouse.get_pos()
             pos = list(pos)
             #print(pos)
-            pos[0] -= 30
-            pos[1] -= 60
+            pos[0] -= 30*IMG_ScalingRegulation
+            pos[1] -= 60*IMG_ScalingRegulation
             stone_tower = StoneTower(pos[0], pos[1], tower_imgs)
             stone_towers.append(stone_tower)
 
@@ -56,10 +61,10 @@ while True:
         stone_tower.update()
         if stone_tower.ready:
             for enemy in enemies:
-                x, y = enemy.x, enemy.y
-                tx, ty = stone_tower.x + stone_tower.w // 2, stone_tower.y + stone_tower.h // 2
+                x, y = enemy.x*IMG_ScalingRegulation, enemy.y*IMG_ScalingRegulation
+                tx, ty = stone_tower.x*IMG_ScalingRegulation + stone_tower.w // 2*IMG_ScalingRegulation, stone_tower.y*IMG_ScalingRegulation + stone_tower.h // 2*IMG_ScalingRegulation
                 if ((x - tx) ** 2 + (y - ty) ** 2) ** 0.5 <= stone_tower.range:
-                    stones.append(Stone(enemy, stone_tower.x + 43, stone_tower.y + 56, stone_img, 1))
+                    stones.append(Stone(enemy, stone_tower.x + 43*IMG_ScalingRegulation, stone_tower.y + 56*IMG_ScalingRegulation, stone_img, 1))
                     stone_tower.ready = False
                     break
 

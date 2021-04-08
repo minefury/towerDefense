@@ -1,67 +1,66 @@
 import pygame
 import math
 from utils import *
-
 snow_bat_imgs = []
 for i in range(10):
     img = load_img(f"images/enemies/SnowBat/2_enemies_1_WALK_0{i if i > 9 else '0' + str(i)}.png")
-    img = pygame.transform.scale(img, (150, 150))
+    img = pygame.transform.scale(img, (int(150*IMG_ScalingRegulation), int(150*IMG_ScalingRegulation)))
     img = pygame.transform.flip(img, True, False)
     snow_bat_imgs.append(img)
 
 snow_bat_die_imgs = []
 for i in range(10):
     img = load_img(f"images/enemies/SnowBat/2_enemies_1_DIE_0{i if i > 9 else '0' + str(i)}.png")
-    img = pygame.transform.scale(img, (150, 150))
+    img = pygame.transform.scale(img, (int(150*IMG_ScalingRegulation), int(150*IMG_ScalingRegulation)))
     img = pygame.transform.flip(img, True, False)
     snow_bat_die_imgs.append(img)
 
 snow_bat_hurt_imgs = []
 for i in range(10):
     img = load_img(f"images/enemies/SnowBat/2_enemies_1_HURT_0{i if i > 9 else '0' + str(i)}.png")
-    img = pygame.transform.scale(img, (150, 150))
+    img = pygame.transform.scale(img, (int(150*IMG_ScalingRegulation), int(150*IMG_ScalingRegulation)))
     img = pygame.transform.flip(img, True, False)
     snow_bat_hurt_imgs.append(img)
 
 skull_troll_imgs = []
 for i in range(10):
     img = load_img(f"images/enemies/SkullTroll/2_enemies_1_WALK_0{i if i > 9 else '0' + str(i)}.png")
-    img = pygame.transform.scale(img, (150, 150))
+    img = pygame.transform.scale(img, (int(150*IMG_ScalingRegulation), int(150*IMG_ScalingRegulation)))
     img = pygame.transform.flip(img, True, False)
     skull_troll_imgs.append(img)
 
 skull_troll_die_imgs = []
 for i in range(10):
     img = load_img(f"images/enemies/SkullTroll/2_enemies_1_DIE_0{i if i > 9 else '0' + str(i)}.png")
-    img = pygame.transform.scale(img, (150, 150))
+    img = pygame.transform.scale(img, (int(150*IMG_ScalingRegulation), int(150*IMG_ScalingRegulation)))
     img = pygame.transform.flip(img, True, False)
     skull_troll_die_imgs.append(img)
 
 skull_troll_hurt_imgs = []
 for i in range(10):
     img = load_img(f"images/enemies/SkullTroll/2_enemies_1_HURT_0{i if i > 9 else '0' + str(i)}.png")
-    img = pygame.transform.scale(img, (150, 150))
+    img = pygame.transform.scale(img, (int(150*IMG_ScalingRegulation), int(150*IMG_ScalingRegulation)))
     img = pygame.transform.flip(img, True, False)
     skull_troll_hurt_imgs.append(img)
 
 troll_bat_imgs = []
 for i in range(10):
     img = load_img(f"images/enemies/TrollBat/2_enemies_1_WALK_0{i if i > 9 else '0' + str(i)}.png")
-    img = pygame.transform.scale(img, (150, 150))
+    img = pygame.transform.scale(img, (int(150*IMG_ScalingRegulation), int(150*IMG_ScalingRegulation)))
     img = pygame.transform.flip(img, True, False)
     troll_bat_imgs.append(img)
 
 troll_bat_hurt_imgs = []
 for i in range(10):
     img = load_img(f"images/enemies/TrollBat/2_enemies_1_HURT_0{i if i > 9 else '0' + str(i)}.png")
-    img = pygame.transform.scale(img, (150, 150))
+    img = pygame.transform.scale(img, (int(150*IMG_ScalingRegulation), int(150*IMG_ScalingRegulation)))
     img = pygame.transform.flip(img, True, False)
     troll_bat_hurt_imgs.append(img)
 
 troll_bat_die_imgs = []
 for i in range(10):
     img = load_img(f"images/enemies/TrollBat/2_enemies_1_DIE_0{i if i > 9 else '0' + str(i)}.png")
-    img = pygame.transform.scale(img, (150, 150))
+    img = pygame.transform.scale(img, (int(150*IMG_ScalingRegulation), int(150*IMG_ScalingRegulation)))
     img = pygame.transform.flip(img, True, False)
     troll_bat_die_imgs.append(img)
 
@@ -69,7 +68,11 @@ for i in range(10):
 path = []
 f_way = open_file("images/level_1_path.txt")
 for line in f_way:
-    path.append(tuple(map(int, line.split())))
+    TuPLe=tuple(map(int, line.split()))
+    tuple1=[]
+    for i in TuPLe:
+        tuple1.append(i*IMG_ScalingRegulation)
+    path.append(tuple1)
 
 
 class Enemy:
