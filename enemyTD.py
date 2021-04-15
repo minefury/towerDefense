@@ -247,19 +247,20 @@ class Enemy:
 
 
 class EnemyGen:
-    def __init__(self, wave_enemies):
+    def __init__(self, wave_enemies, cnt):
         self.tic = 0
         self.count = 0
+        self.cnt=cnt
         self.wave = 0
         self.wave_tic = [10, 520, 1020]
         self.wave_enemies = wave_enemies
 
     def new_enemy(self):
-        if self.count < 5 and self.tic % 50 == 0:
+        if self.count < self.cnt and self.tic % 50 == 0:
             self.count += 1
-            return Enemy(self.wave_enemies[self.wave][0].copy(),
-                         self.wave_enemies[self.wave][1].copy(),
-                         self.wave_enemies[self.wave][2].copy(), path, self.wave_enemies[self.wave][3])
+            return Enemy(self.wave_enemies[0].copy(),
+                         self.wave_enemies[1].copy(),
+                         self.wave_enemies[2].copy(), path, self.wave_enemies[3])
 
         return None
 
