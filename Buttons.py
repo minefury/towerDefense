@@ -14,7 +14,7 @@ pause_btn = load_and_scale(f"images/buttons/button6.png", 0.8)
 support_tower_btn = load_and_scale(f"images/buttons/ico_23.png", 0.8)
 cost_img = load_and_scale(f"images/buttons/button5.png", 0.8)
 button_bg = load_and_scale(f"images/buttons/button2.png", 1.1)
-
+heart = load_img(f"images/Buttons/heart.png")
 my_font = pygame.font.SysFont("Arial", 32)
 
 
@@ -52,6 +52,16 @@ class PauseButton(Button):
 class SupportTowerButton(Button):
     def __init__(self, x, y, cost):
         super().__init__(x, y, support_tower_btn, cost, cost_img)
+
+class ZhizniKolVo:
+    def __init__(self):
+
+        pass
+    def draw(self, screen, llifes):
+        self.life = my_font.render(llifes, True, (180, 0, 0))
+        screen.blit(heart, (1150, 20))
+        screen.blit(self.life, (1115, 20))
+
 
 
 class GameMenu:

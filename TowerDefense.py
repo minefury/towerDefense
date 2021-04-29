@@ -3,6 +3,7 @@ from towerTD import *
 from utils import *
 from Buttons import *
 import random
+llifes = input("Введите кол-во жизней:" + "\n")
 snow=[]
 time=pygame.time.get_ticks()
 snowY=0
@@ -35,7 +36,12 @@ enemy_gen_snow_bat = EnemyGen(snow_bat,10)
 enemy_gen_skull_troll = EnemyGen(skull_troll,12)
 enemy_gen_troll_bat = EnemyGen(troll_bat,18)
 menu = GameMenu()
+lifes = ZhizniKolVo()
+
+tick = 0
 while True:
+
+
     for e in pygame.event.get():
         if e.type == pygame.QUIT:
             exit()
@@ -102,6 +108,8 @@ while True:
         SnowTicks=0
     for i in snow:
         pygame.draw.rect(screen, (255,255,255), (i[0], (i[1]+snowY)%Heights, 5, 5))
+
+    lifes.draw(screen, llifes)
     pygame.display.flip()
     pygame.time.delay(10)
 
